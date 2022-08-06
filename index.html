@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.js"
+        integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu&display=swap" rel="stylesheet">
+    <title>IoT</title>
+</head>
+
+<style>
+    * {
+        font-family: 'Ubuntu', monospace;
+    }
+
+    /* Chrome, Safari, Edge, Opera */
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    /* Firefox */
+    input[type=number] {
+        -moz-appearance: textfield;
+    }
+</style>
+
+<body>
+
+    <!-- navbar -->
+    <nav class="navbar navbar-expand navbar-light bg-dark">
+        <ul class="nav navbar-nav">
+            <li class="nav-item active">
+                <div class="text-white px-3 py-2 fw-bolder fs-5">ITD62-331 IoT for ITD</div>
+            </li>
+        </ul>
+    </nav>
+    <!--  -->
+
+    <!-- main -->
+    <div class="container py-sm-3 mt-sm-3">
+
+        <div class="fs-1 text-center fw-bolder text-body mb-4 mt-1">
+            Weather from IoT
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="col-sm-6 col-lg-3">
+                <div class="form-label text-center">IP</div>
+                <input type="text" class="form-control" name="" id="ipInput" value="192.168.0.14" onchange="main()">
+            </div>
+            <div class="col-sm-6 col-lg-3">
+                <div class="form-label text-center">Port <b class="text-danger">( Default: 8080 )</b></div>
+                <input type="text" class="form-control" name="" id="portInput" value="9191" onchange="main()">
+            </div>
+        </div>
+        <div class="container border p-3 mt-4 text-center " style="background-color: #A6FFF8;">
+            <div class="row">
+                <div class="fs-3 fw-bolder mb-sm-3">
+                    Weather Status
+                </div>
+            </div>
+
+            <div class="row">
+
+                <!-- Temp -->
+                <div class="col">
+                    <div class="row">
+                        <div class="col mb-sm-3">
+                            <img src="https://cdn-icons-png.flaticon.com/512/481/481431.png" width="75">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col mb-sm-3">
+                            Temperature
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col" id="temperatureValue">
+                            000
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Hum -->
+                <div class="col">
+                    <div class="row">
+                        <div class="col mb-sm-3">
+                            <img src="https://cdn-icons-png.flaticon.com/512/727/727790.png" width="75">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col mb-sm-3">
+                            Humidity
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col" id="humidityValue">
+                            000
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Light -->
+                <div class="col">
+                    <div class="row">
+                        <div class="col mb-sm-3">
+                            <img src="https://cdn-icons-png.flaticon.com/512/841/841743.png"
+                                width="75">
+                        </div>
+                    </div>
+                    <div class="row mb-sm-3">
+                        <div class="col">
+                            Light
+                        </div>
+                    </div>
+                    <div class="row mb-sm-3">
+                        <div class="col" id="lightValue">
+                            000
+                        </div>
+                    </div>
+                </div>
+
+                <!-- LED -->
+                <div class="col">
+                    <div class="row mb-sm-3">
+                        <div class="col">
+                            <img src="https://cdn-icons-png.flaticon.com/512/2338/2338838.png" width="75">
+                            <!-- <img src="https://cdn-icons-png.flaticon.com/512/2338/2338767.png" width="75"> light on -->
+                        </div>
+                    </div>
+                    <div class="row mb-sm-3">
+                        <div class="col">
+                            LED status
+                        </div>
+                    </div>
+                    <div class="row mb-sm-3">
+                        <div class="col" id="ledStatus">
+                            Off
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div id="btnOnOff">
+                    <button class="btn btn-primary" onclick="turnOn()">ON</button>
+                    <button class="btn btn-danger" onclick="turnOff()">OFF</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- footer -->
+    <footer class="footer bg-secondary fixed-bottom mt-5">
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <div class="text-center">
+                        <div class="text-white px-3 py-2 fw-bolder fs-5">ITD62-331 IoT for ITD</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!--  -->
+
+</body>
+
+<script>
+    $(() => {
+        main()
+        // $('#btnOnOff').hide()
+    })
+
+    main = () => {
+        new ajax().main()
+    }
+
+    turnOn = () => {
+        console.log('on');
+        new ajax().turnOn()
+    }
+
+    turnOff = () => {
+        console.log('off');
+        new ajax().turnOff()
+    }
+
+    class ajax {
+        constructor() {
+            this.ip = $('#ipInput').val()
+            this.port = $('#portInput').val()
+        }
+
+        main() {
+            console.log(`IP Value = ${this.ip}, Port Value = ${this.port}`)
+            $.ajax({
+                url: `http://${this.ip}:${this.port}`,
+                type: 'GET',
+                success: (data) => {
+                    console.log(data)
+                    $('#textOnTop').html(data)
+                    showBtn()
+                },
+                error: () => {
+                    // $('#btnOnOff').hide()
+                }
+
+
+            })
+        }
+
+        turnOn() {
+            $.ajax({
+                url: `http://${this.ip}:${this.port}/ledon`,
+                type: 'GET',
+                success: function (data) {
+                    console.log(data)
+                    $('#textOnTop').text('Yes')
+                    $('#btnOnOff').hide()
+                }
+            })
+        }
+        turnOff() {
+            $.ajax({
+                url: `http://${this.ip}:${this.port}/ledoff`,
+                type: 'GET',
+                success: function (data) {
+                    console.log(data)
+                    $('#textOnTop').text('No')
+                    $('#btnOnOff').show()
+                }
+            })
+        }
+
+    }
+
+
+
+    showBtn = () => {
+        $('#btnOnOff').show()
+    }
+
+    turnOn = () => {
+
+    }
+
+    turnOff = () => {
+
+    }
+
+</script>
+
+</html>
